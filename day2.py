@@ -25,12 +25,8 @@ def get_turn(symbol):
     else:
         return Turn.SCISSORS
 
-with open("inputs/day2.txt") as f:
-    data = f.read().splitlines()
-    rounds = [(get_turn(line.split()[0]), get_turn(line.split()[1])) for line in data]
-
-total = 0
-for (them, me) in rounds:
+def score_round(them, me):
+    total = 0
     # Score for contest
     if them == me:
         # Draw
@@ -43,6 +39,15 @@ for (them, me) in rounds:
         pass
     # Score for choice
     total += me.score()
+    return total
+
+with open("inputs/day2.txt") as f:
+    data = f.read().splitlines()
+
+rounds = [(get_turn(line.split()[0]), get_turn(line.split()[1])) for line in data]
+total = 0
+for (them, me) in rounds:
+    total += score_round(them, me)
 
 print(total)
 
@@ -51,10 +56,6 @@ class Goal(Enum):
     LOSE = "X"
     DRAW = "Y"
     WIN = "Z"
-
-with open("inputs/day2.txt") as f:
-    data = f.read().splitlines()
-    rounds = [(get_turn(line.split()[0]), Goal(line.split()[1])) for line in data]
 
 def meet_goal(them, goal):
     if goal == Goal.WIN:
@@ -70,20 +71,12 @@ def meet_goal(them, goal):
         else:
             return Turn(them.value - 1)
 
+
+rounds = [(get_turn(line.split()[0]), Goal(line.split()[1])) for line in data]
+
 total = 0
 for (them, goal) in rounds:
     me = meet_goal(them, goal)
-    # Score for contest
-    if them == me:
-        # Draw
-        total += 3
-    elif them < me:
-        # Win
-        total += 6
-    else:
-        # Lose
-        pass
-    # Score for choice
-    total += me.score()
+    total += score_round(them, me)
 
 print(total)
