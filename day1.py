@@ -1,5 +1,5 @@
 # Part 1
-with open("inputs/day1-1.txt") as f:
+with open("inputs/day1.txt") as f:
     data = f.read().splitlines()
 
 answer = 0
