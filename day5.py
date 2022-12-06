@@ -1,4 +1,3 @@
-
 with open("inputs/day5.txt") as f:
     data = f.read()
     stackstr, cmdstr = data.split(sep = "\n\n")
